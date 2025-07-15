@@ -87,7 +87,7 @@ func main() {
 }
 ```
 
-### After Processing (Auto Mode)
+### After Processing
 ```go
 package main
 
