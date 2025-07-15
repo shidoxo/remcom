@@ -1,0 +1,9 @@
+// This file contains only comments
+// Every line is a comment
+// These should all be removed in auto mode
+
+// Even this one
+
+// And this one with extra spaces    
+
+// Final comment

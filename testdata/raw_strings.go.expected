@@ -1,0 +1,32 @@
+package main
+
+import "fmt"
+
+func main() {
+
+	rawStr := `This is a raw string with // comment syntax inside`
+
+	multiLine := `
+        Line 1 with // comment syntax
+        Line 2 with // more comment syntax
+        // This looks like a comment but it's inside raw string
+    `
+
+	complexRaw := `
+package main
+
+import "fmt"
+
+// This looks like a comment but is inside raw string
+func main() {
+    fmt.Println("Hello") // Another fake comment
+}
+    `
+
+	withQuotes := `Raw string with "quotes" and 'single quotes' and // slashes`
+
+	fmt.Println(rawStr)
+	fmt.Println(multiLine)
+	fmt.Println(complexRaw)
+	fmt.Println(withQuotes)
+}

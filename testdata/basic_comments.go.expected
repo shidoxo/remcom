@@ -1,0 +1,15 @@
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println("Hello World")
+
+	var x int
+	x = 42
+
+	if x > 0 {
+		fmt.Println("Positive")
+	}
+
+}

@@ -1,0 +1,37 @@
+package main
+
+import "fmt"
+
+func main() {
+	empty := ""
+
+	slashes := "//////"
+
+	url1 := "http://example.com"
+	url2 := "https://api.github.com/repos"
+	url3 := "ftp://files.example.com"
+
+	unixPath := "/usr/local/bin"
+	winPath := "C:\\Program Files\\App"
+
+	notComment1 := "Use // for comments"
+	notComment2 := "The URL is http://test.com"
+	notComment3 := "Path: /home/user"
+
+	slash := '/'
+	backslash := '\\'
+
+	veryLongVariableName := "This is a very long string that goes on and on and on and takes up a lot of space before the comment"
+
+	weird1 := "String with \"escaped quote at end\""
+	weird2 := `Raw string with "unescaped quotes"`
+
+	fmt.Println(empty)
+	fmt.Println(slashes)
+	fmt.Println(url1, url2, url3)
+	fmt.Println(unixPath, winPath)
+	fmt.Println(notComment1, notComment2, notComment3)
+	fmt.Println(slash, backslash)
+	fmt.Println(veryLongVariableName)
+	fmt.Println(weird1, weird2)
+}

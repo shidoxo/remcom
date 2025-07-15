@@ -1,0 +1,31 @@
+package main
+
+import "fmt"
+
+func main() {
+	nested1 := "Outer \"inner // not a comment\" outer"
+	nested2 := `Raw "with quotes" and // fake comment`
+
+	mixed1 := "Double quote with 'single' inside"
+	mixed2 := `Raw with "double" and 'single' quotes`
+
+	tricky1 := "End with quote: \""
+	tricky2 := "Escaped backslash: \\\\"
+	tricky3 := "Escaped quote: \\\""
+
+	complex := "Start \"middle 'inner // fake' middle\" end"
+
+	jsonLike := `{"url": "https://api.com/endpoint", "comment": "// not real"}`
+
+	codeLike := "func main() { // this is fake code }"
+
+	endQuote := "String ending with quote \""
+
+	fmt.Println(nested1, nested2)
+	fmt.Println(mixed1, mixed2)
+	fmt.Println(tricky1, tricky2, tricky3)
+	fmt.Println(complex)
+	fmt.Println(jsonLike)
+	fmt.Println(codeLike)
+	fmt.Println(endQuote)
+}

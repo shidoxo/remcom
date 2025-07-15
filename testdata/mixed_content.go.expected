@@ -1,0 +1,33 @@
+package main
+
+import (
+	"fmt"
+	"strings"
+)
+
+func processString(input string) string {
+
+	result := strings.TrimSpace(input)
+
+	if len(result) == 0 {
+		return "empty"
+	}
+
+	processed := strings.ToLower(result)
+
+	return processed
+}
+
+func main() {
+	testCases := []string{
+		"Hello World",
+		"  SPACES  ",
+		"",
+	}
+
+	for i, test := range testCases {
+		result := processString(test)
+		fmt.Printf("Case %d: '%s' -> '%s'\n", i+1, test, result)
+	}
+
+}

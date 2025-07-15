@@ -1,0 +1,6 @@
+// First comment with CRLF
+Some content here // Inline comment
+// Another comment
+
+More content // More inline
+// Final comment

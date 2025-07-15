@@ -1,0 +1,70 @@
+package main
+
+import "fmt"
+
+func main() {
+
+	sqlQuery := `
+        SELECT * 
+        FROM users 
+        WHERE active = true  -- SQL comment style
+        AND created_date > '2023-01-01'  -- Another SQL comment
+        // This looks like Go comment but it's in string
+        /* This looks like block comment */
+    `
+
+	htmlContent := `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <!-- HTML comment inside raw string -->
+            <title>Test Page</title>
+            // This is not a real comment
+        </head>
+        <body>
+            <h1>Hello World</h1> <!-- Another HTML comment -->
+            <script>
+                // JavaScript comment inside HTML inside raw string
+                console.log("Hello");
+            </script>
+        </body>
+        </html>
+    `
+
+	configContent := `
+        # This is a config comment (hash style)
+        server.port = 8080
+        server.host = localhost  // Go-style comment in config
+        
+        # Database settings
+        db.url = postgres://localhost:5432/mydb
+        db.user = admin  // Username comment
+        
+        // Another Go-style comment in config
+        log.level = info
+    `
+
+	codeSnippet := `
+        package example
+        
+        import "fmt"
+        
+        // This function prints hello
+        func hello() {
+            fmt.Println("Hello") // Print statement
+        }
+        
+        func main() {
+            hello() // Call function
+        }
+    `
+
+	fmt.Println("SQL Query:")
+	fmt.Println(sqlQuery)
+	fmt.Println("\nHTML Content:")
+	fmt.Println(htmlContent)
+	fmt.Println("\nConfig Content:")
+	fmt.Println(configContent)
+	fmt.Println("\nCode Snippet:")
+	fmt.Println(codeSnippet)
+}

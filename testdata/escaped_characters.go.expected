@@ -1,0 +1,28 @@
+package main
+
+import "fmt"
+
+func main() {
+	escaped1 := "Quote: \"Hello World\""
+	escaped2 := "Backslash: \\ and forward slash: /"
+	escaped3 := "Tab: \t and newline: \n"
+
+	trickyEscape := "End quote: \""
+	anotherTricky := "Escaped quote: \\\""
+
+	multiEscape := "Multiple: \\\\\\\""
+
+	rawWithEscapes := `Raw string with \n and \t and \"`
+
+	escapedChar1 := '\''
+	escapedChar2 := '\\'
+	escapedChar3 := '\n'
+
+	complex := "Start \"middle // not a comment\" end"
+
+	fmt.Println(escaped1, escaped2, escaped3)
+	fmt.Println(trickyEscape, anotherTricky, multiEscape)
+	fmt.Println(rawWithEscapes)
+	fmt.Println(escapedChar1, escapedChar2, escapedChar3)
+	fmt.Println(complex)
+}

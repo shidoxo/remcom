@@ -1,0 +1,30 @@
+package main
+
+import "fmt"
+
+func main() {
+	greeting := "Hello 世界"
+	emoji := "😀🎉🚀"
+
+	formula := "E = mc²"
+	greek := "α β γ δ ε"
+
+	japanese := "こんにちは"
+	russian := "Привет"
+	arabic := "مرحبا"
+
+	rawUnicode := `
+        Symbols: ∑ ∏ ∫ ∂
+        Arrows: → ← ↑ ↓
+        Currency: € £ ¥ ¢
+    `
+
+	π := 3.14159
+	θ := 45.0
+
+	fmt.Println(greeting, emoji)
+	fmt.Println(formula, greek)
+	fmt.Println(japanese, russian, arabic)
+	fmt.Println(rawUnicode)
+	fmt.Println(π, θ)
+}
