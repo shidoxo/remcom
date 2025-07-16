@@ -89,6 +89,7 @@ func validatePath(path string) error {
 	}
 
 	cleanPath := filepath.Clean(path)
+
 	if cleanPath != path {
 		return fmt.Errorf("invalid path: %s (cleaned: %s)", path, cleanPath)
 	}

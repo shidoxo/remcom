@@ -36,7 +36,7 @@ func main() {
 
 	processor := internal.NewProcessor()
 
-	result, err := processor.Process(fileContent.Content, string(CLI.Mode))
+	result, err := processor.Process(fileContent.Content, string(CLI.Mode), fileContent.LineEnding)
 
 	if err != nil {
 		log.Fatalf("Failed to process file: %v", err)

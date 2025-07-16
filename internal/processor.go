@@ -22,9 +22,7 @@ func NewProcessor() *Processor {
 	}
 }
 
-func (p *Processor) Process(content string, mode string) (*ProcessingResult, error) {
-	lineEnding := p.detectLineEnding(content)
-
+func (p *Processor) Process(content string, mode string, lineEnding string) (*ProcessingResult, error) {
 	switch mode {
 	case "auto":
 		return p.processAuto(content, lineEnding)
@@ -33,16 +31,6 @@ func (p *Processor) Process(content string, mode string) (*ProcessingResult, err
 	default:
 		return nil, fmt.Errorf("invalid mode: %s", mode)
 	}
-}
-
-func (p *Processor) detectLineEnding(content string) string {
-	if strings.Contains(content, "\r\n") {
-		return "\r\n"
-	} else if strings.Contains(content, "\r") {
-		return "\r"
-	}
-
-	return "\n"
 }
 
 func (p *Processor) processAuto(content string, lineEnding string) (*ProcessingResult, error) {
@@ -63,16 +51,23 @@ func (p *Processor) processManual(content string, lineEnding string) (*Processin
 	var result strings.Builder
 
 	result.Grow(len(content))
+
 	removalCount := 0
+
+	reader := bufio.NewReader(os.Stdin)
 
 	for i, line := range lines {
 		modifiedLine := p.parser.removeComment(line)
+
 		commentRemoved := line != modifiedLine
 
 		if commentRemoved {
+			fmt.Printf("\nComment found (line %d of %d):\n", i+1, len(lines))
+
 			printRemovalPreview(lines, i)
 
-			remove, err := getUserInput(bufio.NewReader(os.Stdin))
+			remove, err := getUserInput(reader)
+
 			if err != nil {
 				return nil, fmt.Errorf("failed to get user input: %w", err)
 			}
@@ -84,6 +79,7 @@ func (p *Processor) processManual(content string, lineEnding string) (*Processin
 						result.WriteString(lineEnding)
 					}
 				}
+
 				removalCount++
 			} else {
 				result.WriteString(line)

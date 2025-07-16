@@ -79,6 +79,7 @@ func (p *Parser) consolidateBlankLines(content string, lineEnding string) string
 			prevWasBlank = true
 		} else {
 			result = append(result, line)
+
 			prevWasBlank = false
 		}
 	}
@@ -92,9 +93,12 @@ func (p *Parser) removeCommentsFromContent(content string) (string, int) {
 	inRawString := false
 
 	var result strings.Builder
+
 	result.Grow(len(content))
 
 	removalCount := 0
+
+	lineHasContent := false
 
 	i := 0
 
@@ -103,6 +107,7 @@ func (p *Parser) removeCommentsFromContent(content string) (string, int) {
 			if i < len(content) {
 				result.WriteByte(content[i])
 			}
+
 			break
 		}
 
@@ -111,44 +116,63 @@ func (p *Parser) removeCommentsFromContent(content string) (string, int) {
 		switch {
 		case char == '`' && !inString && !inRune:
 			inRawString = !inRawString
+
 			result.WriteByte(char)
+
+			lineHasContent = true
 		case inRawString:
 			result.WriteByte(char)
+
+			if char != '\n' && char != '\r' {
+				lineHasContent = true
+			}
 		case char == '\\' && (inString || inRune):
 			result.WriteByte(char)
 
+			lineHasContent = true
+
 			if i+1 < len(content) {
 				i++
+
 				result.WriteByte(content[i])
 			}
 		case char == '"' && !inRune:
 			inString = !inString
 
 			result.WriteByte(char)
+
+			lineHasContent = true
 		case char == '\'' && !inString:
 			inRune = !inRune
+
+			result.WriteByte(char)
+
+			lineHasContent = true
+		case char == '\n' || char == '\r':
+			result.WriteByte(char)
+
+			lineHasContent = false
+		case char == ' ' || char == '\t':
 			result.WriteByte(char)
 		case !inString && !inRune && char == '/' && i+1 < len(content) && content[i+1] == '/':
-			lineStart := result.Len()
+			trimToPos := result.Len()
 
-			for lineStart > 0 && result.String()[lineStart-1] != '\n' && result.String()[lineStart-1] != '\r' {
-				lineStart--
-			}
+			if trimToPos > 0 {
+				resultStr := result.String()
 
-			lineContent := strings.TrimSpace(result.String()[lineStart:])
+				for trimToPos > 0 {
+					if resultStr[trimToPos-1] == ' ' || resultStr[trimToPos-1] == '\t' {
+						trimToPos--
+					} else {
+						break
+					}
+				}
 
-			hasContentBeforeComment := lineContent != ""
-
-			for result.Len() > 0 {
-				lastChar := result.String()[result.Len()-1]
-
-				if lastChar == ' ' || lastChar == '\t' {
-					str := result.String()
+				if trimToPos < result.Len() {
+					trimmed := resultStr[:trimToPos]
 
 					result.Reset()
-					result.WriteString(str[:len(str)-1])
-				} else {
-					break
+					result.WriteString(trimmed)
 				}
 			}
 
@@ -158,22 +182,26 @@ func (p *Parser) removeCommentsFromContent(content string) (string, int) {
 
 			if i < len(content) {
 				if content[i] == '\r' && i+1 < len(content) && content[i+1] == '\n' {
-					if hasContentBeforeComment {
+					if lineHasContent {
 						result.WriteByte('\r')
 						result.WriteByte('\n')
 					}
 
 					i++
 				} else if content[i] == '\n' || content[i] == '\r' {
-					if hasContentBeforeComment {
+					if lineHasContent {
 						result.WriteByte(content[i])
 					}
 				}
 			}
 
+			lineHasContent = false
+
 			removalCount++
 		default:
 			result.WriteByte(char)
+
+			lineHasContent = true
 		}
 
 		i++
@@ -189,6 +217,7 @@ func (p *Parser) postProcessRemoveTrailingNewlines(content, originalContent, lin
 
 	for i := len(originalLines) - 1; i >= 0; i-- {
 		line := strings.TrimSpace(originalLines[i])
+
 		if line != "" {
 			lastNonEmptyIndex = i
 			break
